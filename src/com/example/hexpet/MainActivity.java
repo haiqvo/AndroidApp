@@ -25,6 +25,7 @@ public class MainActivity extends ActionBarActivity implements
 	LocationListener{
 
 	private LocationManager locationManager;
+	private Location currentLocation;
 	private GoogleMap map;
 	
 	@Override
@@ -87,14 +88,28 @@ public class MainActivity extends ActionBarActivity implements
 		}
 	}
 	
+	public void addCreatures(){
+		map.clear();
+		LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+		double lat = latLng.latitude;
+		double lng = latLng.longitude;
+		double randomLat = Math.random() + (lat);
+		double randomLng = Math.random() + (lng);
+		map.addMarker(new MarkerOptions()
+        	.position(new LatLng(lat,lng))
+        	.title("Hello world"));
+	}
 	
 	//From here is for the locationListen
 	@Override
 	public void onLocationChanged(Location location) {
 	    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+	    currentLocation = location;
 	    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
 	    map.animateCamera(cameraUpdate);
 	    locationManager.removeUpdates(this);
+	    addCreatures();
+	    
 
 	}
 
