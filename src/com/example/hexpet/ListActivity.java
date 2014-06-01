@@ -3,6 +3,7 @@ package com.example.hexpet;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.os.Build;
 
@@ -26,21 +28,19 @@ public class ListActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list);
+		DBHandler db = new DBHandler(this);
+		List<Creature> creatures = db.getAllCreature();
+		MyAdapter aa = new MyAdapter(this, R.layout.listelement, creatures);
+		ListView myListView = (ListView) findViewById(R.id.listView1);
+		myListView.setAdapter(aa);
 	}
 	
-	public static class ListElement {
-		ListElement() {};	
-		public String textLabel;
-	}
-	
-	private ArrayList<ListElement> aList = new ArrayList<ListElement>();
-	
-	private class MyAdapter extends ArrayAdapter<ListElement>{	
+	private class MyAdapter extends ArrayAdapter<Creature>{	
 
 		int resource;
 		Context context;
 		
-		public MyAdapter(Context _context, int _resource, List<ListElement> items) {
+		public MyAdapter(Context _context, int _resource, List<Creature> items) {
 			super(_context, _resource, items);
 			resource = _resource;
 			context = _context;
@@ -52,7 +52,7 @@ public class ListActivity extends ActionBarActivity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			LinearLayout newView;
 			
-			ListElement w = getItem(position);
+			Creature w = getItem(position);
 			
 			// Inflate a new view if necessary.
 			if (convertView == null) {
@@ -66,7 +66,7 @@ public class ListActivity extends ActionBarActivity {
 			
 			// Fills in the view.
 			TextView tv = (TextView) newView.findViewById(R.id.listText);
-			tv.setText(w.textLabel);
+			tv.setText(w.name);
 
 
 			return newView;

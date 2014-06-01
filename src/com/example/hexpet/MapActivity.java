@@ -3,8 +3,10 @@ package com.example.hexpet;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.support.v7.app.ActionBarActivity;
@@ -23,7 +25,7 @@ import android.view.ViewGroup;
 import android.os.Build;
 
 public class MapActivity extends ActionBarActivity implements
-	LocationListener{
+	LocationListener, OnMarkerClickListener{
 
 	private LocationManager locationManager;
 	private Location currentLocation;
@@ -39,6 +41,7 @@ public class MapActivity extends ActionBarActivity implements
         map.getUiSettings().setZoomControlsEnabled(false);
         map.getUiSettings().setZoomGesturesEnabled(false);
         map.getUiSettings().setRotateGesturesEnabled(false);
+        map.setOnMarkerClickListener(this);
 	}
 
 	@Override
@@ -91,7 +94,8 @@ public class MapActivity extends ActionBarActivity implements
         		.title("Hello world"));
 		}
 	}
-
+	
+	//need for change in location
 	@Override
 	public void onLocationChanged(Location location) {
 		LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -119,6 +123,15 @@ public class MapActivity extends ActionBarActivity implements
 	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	
+	//needed for the marker clicks
+	@Override
+	public boolean onMarkerClick(Marker marker) {
+		DBHandler db = new DBHandler(this);
+		db.addCreature(new Creature(marker.getTitle()));
+		return false;
 	}
 
 }
