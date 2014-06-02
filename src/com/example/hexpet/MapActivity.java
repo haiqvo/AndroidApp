@@ -5,6 +5,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -13,6 +14,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -89,9 +91,12 @@ public class MapActivity extends ActionBarActivity implements
 		for(int i = 0; i<10; i++){
 			double randomLat = Math.random() * 0.01 + (lat-0.005);
 			double randomLng = Math.random() * 0.01 + (lng-0.005);
+			CreatureGenerator creature = new CreatureGenerator(randomLat, randomLng);
+			Bitmap b = creature.getBitmap(32);
 			map.addMarker(new MarkerOptions()
         		.position(new LatLng(randomLat,randomLng))
-        		.title("Hello world"));
+        		.title("Hello world")
+				.icon(BitmapDescriptorFactory.fromBitmap(b)));
 		}
 	}
 	
