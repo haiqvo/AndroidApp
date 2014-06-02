@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".MainActivity" >
 
     <Button
@@ -24,6 +25,10 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="39dp"
         android:layout_marginTop="45dp"
+        android:background="@drawable/border"
+        android:textColor="@color/white"
+        android:onClick="goToMap"
+        android:clickable="true"
         android:text="Go to map"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -34,6 +39,10 @@
         android:layout_alignLeft="@+id/textView1"
         android:layout_below="@+id/button1"
         android:layout_marginTop="69dp"
+        android:background="@drawable/border"
+        android:textColor="#ffffff"
+        android:onClick="goToCreatures"
+        android:clickable="true"
         android:text="Go to Creatures"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 

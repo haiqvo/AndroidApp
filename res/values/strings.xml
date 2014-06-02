@@ -7,5 +7,7 @@
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_list">ListActivity</string>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 
 </resources>
