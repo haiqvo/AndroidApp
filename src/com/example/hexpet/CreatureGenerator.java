@@ -22,11 +22,9 @@ public class CreatureGenerator {
 	
 	public CreatureGenerator(Double lat, Double lon)
 	{
-		Double llat = (lat*10000000000L);
-		Double llon = lon*10000000000L;
-		
 		setRandom(llat,llon);
 		generateName();
+		
 		ArrayList<Integer> coordinates = new ArrayList<Integer>();
 		for(int i = 0; i < bitmap_side*bitmap_side; i++)
 		{
@@ -66,22 +64,18 @@ public class CreatureGenerator {
 	
 	private void setRandom(Double lat, Double lon)
 	{
-		long u_mask = 0x00000000FFFFFFFFL;
-		long l_mask = 0xFFFFFFFF00000000L;
+		long main_lat = (new Double(lat)).longValue();
+		long main_lon = (new Double(lon)).longValue();
+		long main_seed = (main_lat << 32) & main_lon;
 		
-		//Random r = new Random(System.currentTimeMillis());
-		long llat = (new Double(lat)).longValue();
-		long llon = (new Double(lon)).longValue();
+		main_random = new Random(main_seed);
 		
-		long main_seed = llat & u_mask;
-		main_seed = main_seed & ((llon & u_mask) >> 32);
-		//main_random = new Random(main_seed);
-		main_random = new Random(llat);
 		
-		long sub_seed = (llat & l_mask) << 32;
-		sub_seed = sub_seed & (llon & l_mask);
-		//sub_random = new Random(sub_seed);
-		sub_random = new Random(llon);
+		long sub_lat = (new Double((lat-main_lat)*Math.pow(2,64))).longValue();
+		long sub_lon = (new Double((lon-main_lon)*Math.pow(2,64))).longValue();
+		long sub_seed = (sub_lat << 32) & sub_lon;
+		
+		sub_random = new Random(sub_seed);
 	}
 	
 	public Bitmap getBitmap(int size)
