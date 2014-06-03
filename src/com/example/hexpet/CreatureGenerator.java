@@ -26,6 +26,7 @@ public class CreatureGenerator {
 		Double llon = lon*10000000000L;
 		
 		setRandom(llat,llon);
+		generateName();
 		ArrayList<Integer> coordinates = new ArrayList<Integer>();
 		for(int i = 0; i < bitmap_side*bitmap_side; i++)
 		{
@@ -118,7 +119,7 @@ public class CreatureGenerator {
 	
 	
 	String[][][] graphemes = {{{"p"},{"b"},{"m"},{"t","tt","ed"},{"d","ed"},{"n","gn"},{"k","c","ck","ch","ik","q"},{"g","gh"},{"ng","n"},{"f","ff","gh","ph"},{"v","ve"},{"s","ss","sc","ps"},{"z","zz","se","s","x"},{"th"},{"sh","ss","s","ch","sc","ti","si","ci"},{"s","z"},{"ch","tch"},{"j","ge"},{"l","ll","le"},{"r","tr","er","ur","ir"},{"y","u","eu","i"},{"w","qu"},{"h","wh"}},{{"ee","ea","ey","ie","ei"},{"ai","ay","ea","ei","ey"},{"a"},{"igh"},{"o","wa","al"},{"u","o","oo","ou"},{"aw","au","all","wa","ough"},{"oa","oe","ow"},{"oo","u","ou"},{"oo","ue","ew","ui","ou"},{"u","ew"},{"oi","oy"},{"ou","ow"},{"er","ui","ir"},{"ar"},{"or"}}};
-	public String generateName()
+	private String generateName()
 	{
 	    int len = main_random.nextInt(7)+1;
 	    int a = main_random.nextInt(graphemes.length);
