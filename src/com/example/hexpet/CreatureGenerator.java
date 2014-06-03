@@ -11,44 +11,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 public class CreatureGenerator {
-	public class Pixel implements Comparator<Pixel>
-	{
-		public int color;
-		public boolean isLive;
-		public int ind;
-		public int side;
-		
-		public Pixel(){}
-		public Pixel(int _side, int _ind, int _color, boolean _isLive)
-		{
-			side = _side;
-			ind = _ind;
-			color = _color;
-			isLive = _isLive;
-		}
-		
-		@Override
-		public int compare(Pixel p1, Pixel p2)
-		{
-			return p1.ind - p2.ind;
-		}
-		
-		public int[] getCoordinates()
-		{
-			int[] ret = new int[2];
-			
-			int x = this.ind % this.side;
-			int y = this.ind / this.side;
-			
-			ret[0] = x;
-			ret[1] = y;
-			return ret;
-		}
-	}
-	
 	private Random main_random;
 	private Random sub_random;
 	public ArrayList<Pixel> pixel_map;
+	public String main_name;
+	public String sub_name;
+	public String getName(){return main_name + " " + sub_name;}
 	
 	private final int bitmap_side = 8;
 	
@@ -146,5 +114,73 @@ public class CreatureGenerator {
 			}
 		}
 		return ret;
+	}
+	
+	
+	String[][][] graphemes = {{{"p"},{"b"},{"m"},{"t","tt","ed"},{"d","ed"},{"n","gn"},{"k","c","ck","ch","ik","q"},{"g","gh"},{"ng","n"},{"f","ff","gh","ph"},{"v","ve"},{"s","ss","sc","ps"},{"z","zz","se","s","x"},{"th"},{"sh","ss","s","ch","sc","ti","si","ci"},{"s","z"},{"ch","tch"},{"j","ge"},{"l","ll","le"},{"r","tr","er","ur","ir"},{"y","u","eu","i"},{"w","qu"},{"h","wh"}},{{"ee","ea","ey","ie","ei"},{"ai","ay","ea","ei","ey"},{"a"},{"igh"},{"o","wa","al"},{"u","o","oo","ou"},{"aw","au","all","wa","ough"},{"oa","oe","ow"},{"oo","u","ou"},{"oo","ue","ew","ui","ou"},{"u","ew"},{"oi","oy"},{"ou","ow"},{"er","ui","ir"},{"ar"},{"or"}}};
+	public String generateName()
+	{
+	    int len = main_random.nextInt(7)+1;
+	    int a = main_random.nextInt(graphemes.length);
+	    
+	    String major_name = "";
+	    for(i = 0; i < len; i++)
+	    {
+	        a = 1 - a;
+	        int b = main_random.nextInt(graphemes[a].length);
+	        int c = main_random.nextInt(graphemes[a][b].length);
+	        major_name += graphemes[a][b][c];
+	    }
+	    major_name = Character.toUpperCase(major_name.charAt(0)) + major_name.substring(1);
+	    this.main_name = major_name;
+	    
+	    len = sub_random.nextInt(7)+1;
+	    a = sub_random.nextInt(graphemes.length);
+	    
+	    String minor_name = "";
+	    for(i = 0; i < len; i++)
+	    {
+	        a = 1 - a;
+	        int b = sub_random.nextInt(graphemes[a].length);
+	        int c = sub_random.nextInt(graphemes[a][b].length);
+	        minor_name += graphemes[a][b][c];
+	    }
+	    minor_name = Character.toUpperCase(minor_name.charAt(0)) + minor_name.substring(1);
+	    this.sub_name = minor_name;
+	}
+	
+	public class Pixel implements Comparator<Pixel>
+	{
+		public int color;
+		public boolean isLive;
+		public int ind;
+		public int side;
+		
+		public Pixel(){}
+		public Pixel(int _side, int _ind, int _color, boolean _isLive)
+		{
+			side = _side;
+			ind = _ind;
+			color = _color;
+			isLive = _isLive;
+		}
+		
+		@Override
+		public int compare(Pixel p1, Pixel p2)
+		{
+			return p1.ind - p2.ind;
+		}
+		
+		public int[] getCoordinates()
+		{
+			int[] ret = new int[2];
+			
+			int x = this.ind % this.side;
+			int y = this.ind / this.side;
+			
+			ret[0] = x;
+			ret[1] = y;
+			return ret;
+		}
 	}
 }
