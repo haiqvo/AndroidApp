@@ -134,8 +134,16 @@ public class MapActivity extends ActionBarActivity implements
 	//needed for the marker clicks
 	@Override
 	public boolean onMarkerClick(Marker marker) {
-		DBHandler db = new DBHandler(this);
-		db.addCreature(new Creature(marker.getTitle()));
+		double markerLat = marker.getPosition().latitude;
+		double markerLng = marker.getPosition().longitude;
+		double NOISE = 0.1;
+		double latdiff = markerLat - currentLocation.getLatitude();
+		double lngdiff = markerLng - currentLocation.getLongitude();
+		if(latdiff < NOISE && lngdiff < NOISE){
+			DBHandler db = new DBHandler(this);
+			db.addCreature(new Creature(marker.getTitle()));
+			marker.remove();
+		}
 		return false;
 	}
 

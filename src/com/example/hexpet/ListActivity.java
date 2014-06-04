@@ -3,7 +3,6 @@ package com.example.hexpet;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -15,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -22,7 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.os.Build;
 
-public class ListActivity extends ActionBarActivity {
+public class ListActivity extends ActionBarActivity implements OnItemClickListener{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class ListActivity extends ActionBarActivity {
 		MyAdapter aa = new MyAdapter(this, R.layout.listelement, creatures);
 		ListView myListView = (ListView) findViewById(R.id.listView1);
 		myListView.setAdapter(aa);
+		myListView.setOnItemClickListener(this);
 	}
 	
 	private class MyAdapter extends ArrayAdapter<Creature>{	
@@ -91,6 +93,18 @@ public class ListActivity extends ActionBarActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	//this should when clicked on the listview should open a more detail page.
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		
+		//Intent intent = new Intent();
+        //intent.setClass(this, ListItemDetail.class);
+        //intent.putExtra("position", position);
+        //intent.putExtra("id", id);
+        //startActivity(intent);
+		
 	}
 
 
