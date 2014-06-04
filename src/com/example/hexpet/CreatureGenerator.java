@@ -18,7 +18,7 @@ public class CreatureGenerator {
 	public String sub_name;
 	public String getName(){return main_name + " " + sub_name;}
 	
-	private final int bitmap_side = 8;
+	private static final int bitmap_side = 8;
 	
 	public CreatureGenerator(Double lat, Double lon)
 	{
@@ -121,21 +121,21 @@ public class CreatureGenerator {
 	public Bitmap[] getBitmaps(int size)
 	{
 		Bitmap[] ret = new Bitmap[3];
-		ret[0] = Bitmap.getBitmap(zize, pixel_map);
+		ret[0] = CreatureGenerator.getBitmap(size, pixel_map);
 		
-		ArrayList<Pixel> pix = Bitmap.mConway(size, pixel_map);
-		ret[1] = Bitmap.getBitmap(size, pix);
+		ArrayList<Pixel> pix = CreatureGenerator.mConway(size, pixel_map);
+		ret[1] = CreatureGenerator.getBitmap(size, pix);
 		
-		pix = Bitmap.mConway(size, pix);
-		ret[2] = Bitmap.getBitmap(size, pix);
+		pix = CreatureGenerator.mConway(size, pix);
+		ret[2] = CreatureGenerator.getBitmap(size, pix);
 		
 		return ret;
 	}
 	
 	private static ArrayList<Pixel> mConway(int size, ArrayList<Pixel> in)
 	{
-		ArrayList<Pixel> out = new ArrayList<Pixel>(p.size());
-		for(int i = 0; i < p.size(); i++)
+		ArrayList<Pixel> out = new ArrayList<Pixel>(in.size());
+		for(int i = 0; i < in.size(); i++)
 		{
 			Pixel p = in.get(i);
 			int[] ns = p.neighbors();
@@ -203,81 +203,5 @@ public class CreatureGenerator {
 	    }
 	    minor_name = Character.toUpperCase(minor_name.charAt(0)) + minor_name.substring(1);
 	    this.sub_name = minor_name;
-	}
-	
-	public class Pixel implements Comparator<Pixel>
-	{
-		public int color;
-		public boolean isLive;
-		public int ind;
-		public int side;
-		
-		public Pixel(){}
-		public Pixel(int _side, int _ind, int _color, boolean _isLive)
-		{
-			side = _side;
-			ind = _ind;
-			color = _color;
-			isLive = _isLive;
-		}
-		
-		@Override
-		public int compare(Pixel p1, Pixel p2)
-		{
-			return p1.ind - p2.ind;
-		}
-		
-		public int[] getCoordinates()
-		{
-			return Pixel.getCoordinates(this.ind, this.side);
-		}
-		public static int[] getCoordinates(int ind, int side)
-		{
-			int[] ret = new int[2];
-			
-			int x = ind % side;
-			int y = ind / side;
-			
-			ret[0] = x;
-			ret[1] = y;
-			return ret;
-		}
-		public static int getIndex(int x, int y, int side)
-		{
-			return x + y*side;
-		}
-		
-		public int[] neighbors()
-		{
-			int[] ret;
-			ArrayList<Integer> retList = new ArrayList();
-			int[] c = this.getCoordinates();
-			
-			int[][] delta_n = {{-1,-1},{0,-1},{1,-1},{-1,0},{1,0},{-1,1},{0,1},{1,1}};
-			for(int[] d : delta_n)
-			{
-				int x = d[0] + c[0];
-				int y = d[1] + c[1];
-				if((x >= 0 && x < this.side) && (y >= 0 && y < this.side))
-					retList.add(new Integer(Pixel.getIndex(x,y,side)));
-			}
-			
-			if(retList.isEmpty())
-			{
-				ret = new int[1];
-				ret[0] = -1;
-			}
-			else
-			{
-				ret = new int[retList.size()];
-				
-				int i = 0;
-				for(Integer in : retList)
-				{
-					ret[i++] = in.intValue();
-				}
-			}
-			return ret;
-		}
 	}
 }
