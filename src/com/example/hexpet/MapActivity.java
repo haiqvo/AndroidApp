@@ -95,7 +95,7 @@ public class MapActivity extends ActionBarActivity implements
 			Bitmap b = creature.getBitmap(32);
 			map.addMarker(new MarkerOptions()
         		.position(new LatLng(randomLat,randomLng))
-        		.title("Hello world")
+        		.title(creature.getName())
 				.icon(BitmapDescriptorFactory.fromBitmap(b)));
 		}
 	}
