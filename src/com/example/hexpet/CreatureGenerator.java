@@ -83,6 +83,10 @@ public class CreatureGenerator {
 	
 	public Bitmap getBitmap(int size)
 	{
+		return CreatureGenerator.getBitmap(size, pixel_map);
+	}
+	public static Bitmap getBitmap(int size, ArrayList<Pixel> pm)
+	{
 		Bitmap ret = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
 		Canvas mCanvas = new Canvas(ret);
 		Paint mPaint = new Paint();
@@ -95,7 +99,7 @@ public class CreatureGenerator {
 		
 		
 		float pixel_size = size / bitmap_side;
-		for(Pixel p : pixel_map)
+		for(Pixel p : pm)
 		{
 			if(p.isLive)
 			{
@@ -114,8 +118,62 @@ public class CreatureGenerator {
 		return ret;
 	}
 	
+	public Bitmap[] getBitmaps(int size)
+	{
+		Bitmap[] ret = new Bitmap[3];
+		ret[0] = Bitmap.getBitmap(zize, pixel_map);
+		
+		ArrayList<Pixel> pix = Bitmap.mConway(size, pixel_map);
+		ret[1] = Bitmap.getBitmap(size, pix);
+		
+		pix = Bitmap.mConway(size, pix);
+		ret[2] = Bitmap.getBitmap(size, pix);
+		
+		return ret;
+	}
 	
-	String[][][] graphemes = {{{"p"},{"b"},{"m"},{"t","tt","ed"},{"d","ed"},{"n","gn"},{"k","c","ck","ch","ik","q"},{"g","gh"},{"ng","n"},{"f","ff","gh","ph"},{"v","ve"},{"s","ss","sc","ps"},{"z","zz","se","s","x"},{"th"},{"sh","ss","s","ch","sc","ti","si","ci"},{"s","z"},{"ch","tch"},{"j","ge"},{"l","ll","le"},{"r","tr","er","ur","ir"},{"y","u","eu","i"},{"w","qu"},{"h","wh"}},{{"ee","ea","ey","ie","ei"},{"ai","ay","ea","ei","ey"},{"a"},{"igh"},{"o","wa","al"},{"u","o","oo","ou"},{"aw","au","all","wa","ough"},{"oa","oe","ow"},{"oo","u","ou"},{"oo","ue","ew","ui","ou"},{"u","ew"},{"oi","oy"},{"ou","ow"},{"er","ui","ir"},{"ar"},{"or"}}};
+	private static ArrayList<Pixel> mConway(int size, ArrayList<Pixel> in)
+	{
+		ArrayList<Pixel> out = new ArrayList<Pixel>(p.size());
+		for(int i = 0; i < p.size(); i++)
+		{
+			Pixel p = in.get(i);
+			int[] ns = p.neighbors();
+			int n_count = 0, r = 0, g = 0, b = 0;
+			
+			for(int num : ns)
+			{
+				Pixel q = in.get(num);
+				r += Color.red(q.color);
+				g += Color.green(q.color);
+				b += Color.blue(q.color);
+				if(q.isLive)
+					n_count++;
+			}
+			
+			Pixel new_p = new Pixel();
+			new_p.ind = p.ind;
+			new_p.side = p.side;
+			if(n_count > 2 && ((n_count < 5) || (n_count == 8)))
+			{
+				new_p.isLive = true;
+			}
+			else
+				new_p.isLive = false;
+			if(p.isLive && new_p.isLive)
+				new_p.color = p.color;
+			else
+				new_p.color = Color.rgb(r%256, g%256, b%256);
+				
+			out.add(new_p);
+		}
+		return out;
+	}
+	
+	
+	String[][][] graphemes = {{{"p"},{"b"},{"m"},{"t","tt","ed"},{"d","ed"},{"n","gn"},{"k","c","ck","ch","ik","q"},{"g","gh"},{"ng","n"},{"f","ff","gh","ph"},{"v","ve"},{"s","ss","sc","ps"},{"z","zz","se","s","x"},{"th"},{"sh","ss","s","ch","sc","ti","si","ci"},{"s","z"},{"ch","tch"},{"j","ge"},{"l","ll","le"},{"r","tr","er","ur","ir"},{"y","u","eu","i"},{"w","qu"},{"h","wh"}},
+	
+	    {{"ee","ea","ey","ie","ei"},{"ai","ay","ea","ei","ey"},{"a"},{"igh"},{"o","wa","al"},{"u","o","oo","ou"},{"aw","au","all","wa","ough"},{"oa","oe","ow"},{"oo","u","ou"},{"oo","ue","ew","ui","ou"},{"u","ew"},{"oi","oy"},{"ou","ow"},{"er","ui","ir"},{"ar"},{"or"}}};
 	private void generateName()
 	{
 	    int len = main_random.nextInt(7)+1;
@@ -171,13 +229,54 @@ public class CreatureGenerator {
 		
 		public int[] getCoordinates()
 		{
+			return Pixel.getCoordinates(this.ind, this.side);
+		}
+		public static int[] getCoordinates(int ind, int side)
+		{
 			int[] ret = new int[2];
 			
-			int x = this.ind % this.side;
-			int y = this.ind / this.side;
+			int x = ind % side;
+			int y = ind / side;
 			
 			ret[0] = x;
 			ret[1] = y;
+			return ret;
+		}
+		public static int getIndex(int x, int y, int side)
+		{
+			return x + y*side;
+		}
+		
+		public int[] neighbors()
+		{
+			int[] ret;
+			ArrayList<Integer> retList = new ArrayList();
+			int[] c = this.getCoordinates();
+			
+			int[][] delta_n = {{-1,-1},{0,-1},{1,-1},{-1,0},{1,0},{-1,1},{0,1},{1,1}};
+			for(int[] d : delta_n)
+			{
+				int x = d[0] + c[0];
+				int y = d[1] + c[1];
+				if((x >= 0 && x < this.side) && (y >= 0 && y < this.side))
+					retList.add(new Integer(Pixel.getIndex(x,y,side)));
+			}
+			
+			if(retList.isEmpty())
+			{
+				ret = new int[1];
+				ret[0] = -1;
+			}
+			else
+			{
+				ret = new int[retList.size()];
+				
+				int i = 0;
+				for(Integer in : retList)
+				{
+					ret[i++] = in.intValue();
+				}
+			}
 			return ret;
 		}
 	}
