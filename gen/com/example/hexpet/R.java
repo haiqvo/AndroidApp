@@ -1508,14 +1508,15 @@ containing a value of this type.
         public static final int abc_search_dropdown_item_icons_2line=0x7f030015;
         public static final int abc_search_view=0x7f030016;
         public static final int activity_list=0x7f030017;
-        public static final int activity_main=0x7f030018;
-        public static final int activity_map=0x7f030019;
-        public static final int activity_splash_screen=0x7f03001a;
-        public static final int fragment_list=0x7f03001b;
-        public static final int fragment_main=0x7f03001c;
-        public static final int fragment_map=0x7f03001d;
-        public static final int listelement=0x7f03001e;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001f;
+        public static final int activity_list_item_detail=0x7f030018;
+        public static final int activity_main=0x7f030019;
+        public static final int activity_map=0x7f03001a;
+        public static final int activity_splash_screen=0x7f03001b;
+        public static final int fragment_list=0x7f03001c;
+        public static final int fragment_main=0x7f03001d;
+        public static final int fragment_map=0x7f03001e;
+        public static final int listelement=0x7f03001f;
+        public static final int support_simple_spinner_dropdown_item=0x7f030020;
     }
     public static final class menu {
         public static final int list=0x7f0c0000;
@@ -1662,6 +1663,7 @@ containing a value of this type.
         public static final int common_signin_button_text_long=0x7f05001e;
         public static final int hello_world=0x7f05002e;
         public static final int title_activity_list=0x7f050032;
+        public static final int title_activity_list_item_detail=0x7f050033;
         public static final int title_activity_map=0x7f050031;
         public static final int title_activity_splash_screen=0x7f050030;
         /**  Text on a placeholder buy button when Google Play services is not

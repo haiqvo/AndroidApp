@@ -70,7 +70,6 @@ public class ListActivity extends ActionBarActivity implements OnItemClickListen
 			TextView tv = (TextView) newView.findViewById(R.id.listText);
 			tv.setText(w.name);
 
-
 			return newView;
 		}		
 	}
@@ -97,7 +96,7 @@ public class ListActivity extends ActionBarActivity implements OnItemClickListen
 
 	//this should when clicked on the listview should open a more detail page.
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
 		
 		//Intent intent = new Intent();
         //intent.setClass(this, ListItemDetail.class);

@@ -1,5 +1,12 @@
 package com.example.hexpet;
 
+import java.util.Calendar;
+import java.util.Random;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,18 +26,19 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import android.os.Build;
 
 public class MapActivity extends ActionBarActivity implements
-	LocationListener, OnMarkerClickListener{
+	GooglePlayServicesClient.ConnectionCallbacks, OnMarkerClickListener, OnConnectionFailedListener{
 
-	private LocationManager locationManager;
-	private Location currentLocation;
+	private LocationClient mLocationClient;
 	private GoogleMap map;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +46,32 @@ public class MapActivity extends ActionBarActivity implements
 		setContentView(R.layout.activity_map);
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         map.setMyLocationEnabled(true);
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 400, 500, this);
+        mLocationClient = new LocationClient(this, this, this);
         map.getUiSettings().setZoomControlsEnabled(false);
-        map.getUiSettings().setZoomGesturesEnabled(false);
+        //map.getUiSettings().setZoomGesturesEnabled(false);
         map.getUiSettings().setRotateGesturesEnabled(false);
         map.setOnMarkerClickListener(this);
+
+	}
+	
+	@Override
+	protected void onStart(){
+		super.onStart();
+		mLocationClient.connect();
+		//Location currentLocation = mLocationClient.getLastLocation();
+		//addCreatures(currentLocation);
+	}
+	
+	@Override
+	protected void onStop(){
+		mLocationClient.disconnect();
+		super.onStop();
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		//Location currentLocation = mLocationClient.getLastLocation();
 	}
 
 	@Override
@@ -83,14 +111,21 @@ public class MapActivity extends ActionBarActivity implements
 		}
 	}
 	
-	public void addCreatures(){
+	public void addCreatures(Location location){
 		map.clear();
-		LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-		double lat = latLng.latitude;
-		double lng = latLng.longitude;
-		for(int i = 0; i<10; i++){
-			double randomLat = Math.random() * 0.01 + (lat-0.005);
-			double randomLng = Math.random() * 0.01 + (lng-0.005);
+		LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+		Toast.makeText(this, location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+		double clat = latLng.latitude + 0.05;
+		double clng = latLng.longitude + 0.05;
+		Toast.makeText(this, clat + " " + clng, Toast.LENGTH_SHORT).show();
+		double flat = latLng.latitude - 0.5;
+		double flng = latLng.longitude - 0.5;
+		Toast.makeText(this, flat + " " + flng, Toast.LENGTH_SHORT).show();
+		int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+		Random random_spawn = new Random(hour);
+		for(int i = 0; i<400; i++){
+			double randomLat = (flat) + (random_spawn.nextDouble());
+			double randomLng = (flng) + (random_spawn.nextDouble());
 			CreatureGenerator creature = new CreatureGenerator(randomLat, randomLng);
 			Bitmap b = creature.getBitmap(32);
 			map.addMarker(new MarkerOptions()
@@ -98,53 +133,56 @@ public class MapActivity extends ActionBarActivity implements
         		.title(creature.getName())
 				.icon(BitmapDescriptorFactory.fromBitmap(b)));
 		}
-	}
-	
-	//need for change in location
-	@Override
-	public void onLocationChanged(Location location) {
-		LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-	    currentLocation = location;
-	    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
-	    map.moveCamera(cameraUpdate);
-	    locationManager.removeUpdates(this);
-	    addCreatures();
+		
+		CreatureGenerator creature = new CreatureGenerator(location.getLatitude()-0.0005, location.getLongitude()+0.0005);
+		Bitmap b = creature.getBitmap(32);
+		map.addMarker(new MarkerOptions()
+    		.position(new LatLng(location.getLatitude()-0.0005, location.getLongitude()+0.0005))
+    		.title(creature.getName())
+			.icon(BitmapDescriptorFactory.fromBitmap(b)));
 		
 	}
 
-	@Override
-	public void onProviderDisabled(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onProviderEnabled(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	
 	//needed for the marker clicks
 	@Override
 	public boolean onMarkerClick(Marker marker) {
 		double markerLat = marker.getPosition().latitude;
 		double markerLng = marker.getPosition().longitude;
-		double NOISE = 0.1;
-		double latdiff = markerLat - currentLocation.getLatitude();
-		double lngdiff = markerLng - currentLocation.getLongitude();
+		Toast.makeText(this, markerLat + " " + markerLng, Toast.LENGTH_SHORT).show();
+		double NOISE = 0.0005;
+		Location currentLocation = mLocationClient.getLastLocation();
+		double latdiff = Math.abs(markerLat - currentLocation.getLatitude());
+		double lngdiff = Math.abs(markerLng - currentLocation.getLongitude());
 		if(latdiff < NOISE && lngdiff < NOISE){
 			DBHandler db = new DBHandler(this);
-			db.addCreature(new Creature(marker.getTitle()));
+			db.addCreature(new Creature(marker.getTitle(), marker.getPosition()));
 			marker.remove();
 		}
 		return false;
+	}
+	
+	@Override
+	public void onConnected(Bundle connectionHint) {
+		Location currentLocation = mLocationClient.getLastLocation();
+		LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+	    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+	    map.moveCamera(cameraUpdate);
+	    addCreatures(currentLocation);
+		Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
+		
+	}
+	@Override
+	public void onDisconnected() {
+		Toast.makeText(this, "Disconnected. Please re-connect.",
+	                Toast.LENGTH_SHORT).show();
+		
+	}
+	@Override
+	public void onConnectionFailed(ConnectionResult result) {
+		Toast.makeText(this, "Connection Failure",
+			      Toast.LENGTH_SHORT).show();
+		
 	}
 
 }

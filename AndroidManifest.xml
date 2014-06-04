@@ -55,6 +55,10 @@
             android:name="com.example.hexpet.ListActivity"
             android:label="@string/title_activity_list" >
         </activity>
+        <activity
+            android:name="com.example.hexpet.ListItemDetail"
+            android:label="@string/title_activity_list_item_detail" >
+        </activity>
     </application>
 
 </manifest>
