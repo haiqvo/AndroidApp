@@ -64,16 +64,19 @@ public class CreatureGenerator {
 	
 	private void setRandom(Double lat, Double lon)
 	{
+		long u_mask = 0xFFFFFFFF00000000L;
+		long l_mask = 0x00000000FFFFFFFFL;
+		
 		long main_lat = (new Double(lat)).longValue();
 		long main_lon = (new Double(lon)).longValue();
-		long main_seed = (main_lat << 32) & main_lon;
+		long main_seed = ((main_lat << 32) & u_mask) | (main_lon & l_mask);
 		
 		main_random = new Random(main_seed);
 		
 		
 		long sub_lat = (new Double((lat-main_lat)*Math.pow(2,64))).longValue();
 		long sub_lon = (new Double((lon-main_lon)*Math.pow(2,64))).longValue();
-		long sub_seed = (sub_lat << 32) & sub_lon;
+		long sub_seed = ((sub_lat << 32) & u_mask) | (sub_lon & l_mask);
 		
 		sub_random = new Random(sub_seed);
 	}
