@@ -19,6 +19,7 @@ public class CreatureGenerator {
 	public String main_name;
 	public String sub_name;
 	public String getName(){return main_name + " " + sub_name;}
+	public Stats stats;
 
 	private static final int bitmap_side = 8;
 
@@ -42,7 +43,7 @@ public class CreatureGenerator {
 			int side = bitmap_side;
 			int color = Color.rgb(main_random.nextInt(256), main_random.nextInt(256), main_random.nextInt(256));
 			boolean isLive = sub_random.nextBoolean();
-
+			
 			if(isLive)
 			{
 				Integer c = coordinates.get(0);
@@ -56,12 +57,14 @@ public class CreatureGenerator {
 			int side = bitmap_side;
 			int color = Color.rgb(sub_random.nextInt(256), sub_random.nextInt(256), sub_random.nextInt(256));
 			boolean isLive = sub_random.nextBoolean();
-
+			
 			Pixel p = new Pixel(side, i.intValue(), color, isLive);
 			this.pixel_map.add(p);
 		}
-
+			
 		Collections.sort(this.pixel_map, new Pixel());
+		
+		this.stats = new Stats(sub_random);
 	}
 
 	private void setRandom(Double lat, Double lon)
