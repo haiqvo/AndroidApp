@@ -9,6 +9,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
 
 public class CreatureGenerator {
 	private Random main_random;
@@ -66,6 +68,26 @@ public class CreatureGenerator {
 	{
 		long u_mask = 0xFFFFFFFF00000000L;
 		long l_mask = 0x00000000FFFFFFFFL;
+		long e_mask = 0xFFF0000000000000L;
+		long f_mask = 0x000FFFFFFFFFFFFFL;
+
+		long main_lat = (new Double(lat)).longValue();
+		long main_lon = (new Double(lon)).longValue();
+		long main_seed = ((main_lat << 32) & u_mask) | (main_lon & l_mask);
+
+		main_random = new Random(main_seed);
+
+
+		long sub_lat = Double.doubleToRawLongBits(lat);
+		long sub_lon = Double.doubleToRawLongBits(lon);//(new Double((lon-main_lon)*Math.pow(2,64))).longValue();
+		long sub_seed = ((sub_lat & l_mask) << 32) | (sub_lon & l_mask);
+
+		sub_random = new Random(sub_seed);
+	}
+	/*private void setRandom(Double lat, Double lon)
+	{
+		long u_mask = 0xFFFFFFFF00000000L;
+		long l_mask = 0x00000000FFFFFFFFL;
 
 		long main_lat = (new Double(lat)).longValue();
 		long main_lon = (new Double(lon)).longValue();
@@ -79,7 +101,7 @@ public class CreatureGenerator {
 		long sub_seed = ((sub_lat << 32) & u_mask) | (sub_lon & l_mask);
 
 		sub_random = new Random(sub_seed);
-	}
+	}*/
 
 	public Bitmap getBitmap(int size)
 	{
@@ -130,6 +152,22 @@ public class CreatureGenerator {
 		ret[2] = CreatureGenerator.getBitmap(size, pix);
 
 		return ret;
+	}
+	
+	public static AnimationDrawable getADrawable(Bitmap[] frames)
+	{
+		BitmapDrawable bd1 = new BitmapDrawable(frames[0]);
+		BitmapDrawable bd2 = new BitmapDrawable(frames[1]);
+		BitmapDrawable bd3 = new BitmapDrawable(frames[2]);
+		BitmapDrawable bd4 = new BitmapDrawable(frames[1]);
+		AnimationDrawable ad1 = new AnimationDrawable();
+		ad1.setOneShot(false);
+		ad1.addFrame(bd1, 1000);
+		ad1.addFrame(bd2, 1000);
+		ad1.addFrame(bd3, 1000);
+		ad1.addFrame(bd4, 1000);
+		
+		return ad1;
 	}
 
 	private static ArrayList<Pixel> mConway(int size, ArrayList<Pixel> in)

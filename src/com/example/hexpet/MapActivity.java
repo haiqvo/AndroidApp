@@ -118,14 +118,14 @@ public class MapActivity extends ActionBarActivity implements
 		double clat = latLng.latitude + 0.05;
 		double clng = latLng.longitude + 0.05;
 		Toast.makeText(this, clat + " " + clng, Toast.LENGTH_SHORT).show();
-		double flat = latLng.latitude - 0.5;
-		double flng = latLng.longitude - 0.5;
+		double flat = latLng.latitude - 0.125;
+		double flng = latLng.longitude - 0.125;
 		Toast.makeText(this, flat + " " + flng, Toast.LENGTH_SHORT).show();
 		int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 		Random random_spawn = new Random(hour);
-		for(int i = 0; i<400; i++){
-			double randomLat = (flat) + (random_spawn.nextDouble());
-			double randomLng = (flng) + (random_spawn.nextDouble());
+		for(int i = 0; i<2000; i++){
+			double randomLat = (flat) + (random_spawn.nextDouble()*0.25);
+			double randomLng = (flng) + (random_spawn.nextDouble()*0.25);
 			CreatureGenerator creature = new CreatureGenerator(randomLat, randomLng);
 			Bitmap b = creature.getBitmap(32);
 			map.addMarker(new MarkerOptions()
@@ -154,11 +154,11 @@ public class MapActivity extends ActionBarActivity implements
 		Location currentLocation = mLocationClient.getLastLocation();
 		double latdiff = Math.abs(markerLat - currentLocation.getLatitude());
 		double lngdiff = Math.abs(markerLng - currentLocation.getLongitude());
-		if(latdiff < NOISE && lngdiff < NOISE){
+		//if(latdiff < NOISE && lngdiff < NOISE){
 			DBHandler db = new DBHandler(this);
 			db.addCreature(new Creature(marker.getTitle(), marker.getPosition()));
 			marker.remove();
-		}
+		//}
 		return false;
 	}
 	

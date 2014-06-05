@@ -1,14 +1,12 @@
 package com.example.hexpet;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,20 +15,20 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.os.Build;
 
 public class ListActivity extends ActionBarActivity implements OnItemClickListener{
 
+	private List<Creature> creatures;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list);
 		DBHandler db = new DBHandler(this);
-		List<Creature> creatures = db.getAllCreature();
+		this.creatures = db.getAllCreature();
 		MyAdapter aa = new MyAdapter(this, R.layout.listelement, creatures);
 		ListView myListView = (ListView) findViewById(R.id.listView1);
 		myListView.setAdapter(aa);
@@ -69,6 +67,7 @@ public class ListActivity extends ActionBarActivity implements OnItemClickListen
 			// Fills in the view.
 			TextView tv = (TextView) newView.findViewById(R.id.listText);
 			tv.setText(w.name);
+			//tv.setTag(w);
 
 			return newView;
 		}		
@@ -98,11 +97,15 @@ public class ListActivity extends ActionBarActivity implements OnItemClickListen
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
 		
-		//Intent intent = new Intent();
-        //intent.setClass(this, ListItemDetail.class);
+		Intent intent = new Intent();
+        intent.setClass(this, ListItemDetail.class);
         //intent.putExtra("position", position);
         //intent.putExtra("id", id);
-        //startActivity(intent);
+        
+        Creature c = creatures.get(position);
+        intent.putExtra("lat", c.getLat());
+        intent.putExtra("lon", c.getLng());
+        startActivity(intent);
 		
 	}
 
