@@ -4,9 +4,12 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +36,9 @@ public class ListActivity extends ActionBarActivity implements OnItemClickListen
 		ListView myListView = (ListView) findViewById(R.id.listView1);
 		myListView.setAdapter(aa);
 		myListView.setOnItemClickListener(this);
+		
+		View v = findViewById(R.id.container);
+		v.setBackgroundColor(Color.rgb(64, 64, 64));
 	}
 	
 	private class MyAdapter extends ArrayAdapter<Creature>{	
@@ -65,8 +71,31 @@ public class ListActivity extends ActionBarActivity implements OnItemClickListen
 			}
 			
 			// Fills in the view.
+			LinearLayout ll = (LinearLayout) newView.findViewById(R.id.linearLayout1);
+			int c = Color.BLACK;
+			if(position%2 == 0)
+				c = Color.rgb(0,0,64);
+			ll.setBackgroundColor(c);
+			CreatureView cv = (CreatureView) newView.findViewById(R.id.creatureView1);		
+			CreatureGenerator gen = new CreatureGenerator(w.getLat(),w.getLng());
+			Bitmap[] frames = gen.getBitmaps(32);
+			BitmapDrawable bd1 = new BitmapDrawable(getResources(),frames[0]);
+			BitmapDrawable bd2 = new BitmapDrawable(getResources(),frames[1]);
+			BitmapDrawable bd3 = new BitmapDrawable(getResources(),frames[2]);
+			BitmapDrawable bd4 = new BitmapDrawable(getResources(),frames[1]);
+			AnimationDrawable ad1 = new AnimationDrawable();
+			ad1.setOneShot(false);
+			ad1.addFrame(bd1, 1000);
+			ad1.addFrame(bd2, 1000);
+			ad1.addFrame(bd3, 1000);
+			ad1.addFrame(bd4, 1000);
+			cv.setBackground(ad1);
+			ad1.start();
+			
 			TextView tv = (TextView) newView.findViewById(R.id.listText);
 			tv.setText(w.name);
+			tv.setTextColor(Color.WHITE);
+			
 			//tv.setTag(w);
 
 			return newView;

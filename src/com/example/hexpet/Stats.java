@@ -1,11 +1,13 @@
 package com.example.hexpet;
 
+import java.util.Random;
+
 public class Stats
 {
-	private int health;
-	private int strength;
-	private int armor;
-	private int dexterity;
+	public int health;
+	public int strength;
+	public int armor;
+	public int dexterity;
 	
 	public Stats(Random r)
 	{

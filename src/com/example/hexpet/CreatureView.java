@@ -26,7 +26,7 @@ public class CreatureView extends ImageView {
 	{
 	    int measureSpec = Math.min(widthMeasureSpec, heightMeasureSpec);
 	    if (measureSpec == 0)
-	        measureSpce = Math.max(widthMeasureSpec, heightMeasureSpec);
+	        measureSpec = Math.max(widthMeasureSpec, heightMeasureSpec);
 		super.onMeasure(measureSpec, measureSpec);
 	}
 

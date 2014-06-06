@@ -2,15 +2,12 @@ package com.example.hexpet;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.ViewTreeObserver;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class ListItemDetail extends Activity {
 
@@ -34,10 +31,10 @@ public class ListItemDetail extends Activity {
 		ImageView iv = (ImageView) findViewById(R.id.imageView1);		
 		CreatureGenerator gen = new CreatureGenerator(this.lat,this.lng);
 		Bitmap[] frames = gen.getBitmaps(1024);
-		BitmapDrawable bd1 = new BitmapDrawable(frames[0]);
-		BitmapDrawable bd2 = new BitmapDrawable(frames[1]);
-		BitmapDrawable bd3 = new BitmapDrawable(frames[2]);
-		BitmapDrawable bd4 = new BitmapDrawable(frames[1]);
+		BitmapDrawable bd1 = new BitmapDrawable(getResources(),frames[0]);
+		BitmapDrawable bd2 = new BitmapDrawable(getResources(),frames[1]);
+		BitmapDrawable bd3 = new BitmapDrawable(getResources(),frames[2]);
+		BitmapDrawable bd4 = new BitmapDrawable(getResources(),frames[1]);
 		AnimationDrawable ad1 = new AnimationDrawable();
 		ad1.setOneShot(false);
 		ad1.addFrame(bd1, 1000);
@@ -47,5 +44,20 @@ public class ListItemDetail extends Activity {
 		
 		iv.setBackground(ad1);
 		ad1.start();
+		
+		Stats s = gen.stats;
+		int c = Color.rgb(128, 128, 128);
+		TextView tv = (TextView) findViewById(R.id.textView1);
+		tv.setText("health: " + s.health);
+		tv.setTextColor(c);
+		tv = (TextView) findViewById(R.id.textView2);
+		tv.setText("strength: " + s.strength);
+		tv.setTextColor(c);
+		tv = (TextView) findViewById(R.id.textView3);
+		tv.setText("armor: " + s.armor);
+		tv.setTextColor(c);
+		tv = (TextView) findViewById(R.id.textView4);
+		tv.setText("dexterity: " + s.dexterity);
+		tv.setTextColor(c);
 	}
 }

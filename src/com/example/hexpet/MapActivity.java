@@ -168,6 +168,8 @@ public class MapActivity extends ActionBarActivity implements
 		LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 	    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
 	    map.moveCamera(cameraUpdate);
+	    //mapContainer mc = new mapContainer(map,currentLocation);
+	    //ne	w BackgroundMap().execute(mc);
 	    addCreatures(currentLocation);
 		Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
 		
@@ -184,5 +186,21 @@ public class MapActivity extends ActionBarActivity implements
 			      Toast.LENGTH_SHORT).show();
 		
 	}
-
+	
+	public class mapContainer
+	{
+		public GoogleMap map;
+		public LatLng loc;
+		
+		public mapContainer(GoogleMap m, LatLng l)
+		{
+			this.map = m;
+			this.loc = l;
+		}
+		public mapContainer(GoogleMap m, Location l)
+		{
+			this.map = m;
+			this.loc = new LatLng(l.getLatitude(), l.getLongitude());
+		}
+	}
 }
