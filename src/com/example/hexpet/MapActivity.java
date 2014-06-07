@@ -20,7 +20,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
@@ -142,6 +147,38 @@ public class MapActivity extends ActionBarActivity implements
 			.icon(BitmapDescriptorFactory.fromBitmap(b)));
 		
 	}
+	
+	@SuppressLint("ValidFragment")
+	public class MarkerClickDialogFragment extends DialogFragment {
+		Marker marker;
+		public MarkerClickDialogFragment(Marker marker){
+			this.marker = marker;
+		}
+	    @Override
+	    public Dialog onCreateDialog(Bundle savedInstanceState) {
+	        // Use the Builder class for convenient dialog construction
+	    	CreatureGenerator gen = new CreatureGenerator(this.marker.getPosition().latitude,this.marker.getPosition().longitude);
+	    	Stats s = gen.stats;
+	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+	        builder.setMessage("Capture: " + marker.getTitle() +"\n" + "health: " + s.health
+	        		+ "\n" + "strength: " + s.strength
+	        		+ "\n" + "armor: " + s.armor
+	        		+ "\n" + "dexterity: " + s.dexterity)
+	               .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+	                   public void onClick(DialogInterface dialog, int id) {
+	                	   	DBHandler db = new DBHandler(getApplicationContext());
+	           				db.addCreature(new Creature(marker.getTitle(), marker.getPosition()));
+	           				marker.remove();
+	                   }
+	               })
+	               .setNegativeButton("no", new DialogInterface.OnClickListener() {
+	                   public void onClick(DialogInterface dialog, int id) {
+	                   }
+	               });
+	        // Create the AlertDialog object and return it
+	        return builder.create();
+	    }
+	}
 
 	
 	//needed for the marker clicks
@@ -154,10 +191,12 @@ public class MapActivity extends ActionBarActivity implements
 		Location currentLocation = mLocationClient.getLastLocation();
 		double latdiff = Math.abs(markerLat - currentLocation.getLatitude());
 		double lngdiff = Math.abs(markerLng - currentLocation.getLongitude());
+		MarkerClickDialogFragment test = new MarkerClickDialogFragment(marker);
+		test.show(getFragmentManager(), null);
 		//if(latdiff < NOISE && lngdiff < NOISE){
-			DBHandler db = new DBHandler(this);
-			db.addCreature(new Creature(marker.getTitle(), marker.getPosition()));
-			marker.remove();
+			//DBHandler db = new DBHandler(this);
+			//db.addCreature(new Creature(marker.getTitle(), marker.getPosition()));
+			//marker.remove();
 		//}
 		return false;
 	}
@@ -165,12 +204,14 @@ public class MapActivity extends ActionBarActivity implements
 	@Override
 	public void onConnected(Bundle connectionHint) {
 		Location currentLocation = mLocationClient.getLastLocation();
-		LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-	    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+		LatLng latLng = new LatLng(Math.round(currentLocation.getLatitude()*10)/10, Math.round(currentLocation.getLongitude()*10)/10);
+		LatLng curLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+	    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(curLatLng, 15);
 	    map.moveCamera(cameraUpdate);
-	    //mapContainer mc = new mapContainer(map,currentLocation);
-	    //ne	w BackgroundMap().execute(mc);
-	    addCreatures(currentLocation);
+	    mapContainer mc = new mapContainer(map,latLng);
+	    map.clear();
+	    new BackgroundMap().execute(mc);
+	    //addCreatures(currentLocation);
 		Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
 		
 	}
