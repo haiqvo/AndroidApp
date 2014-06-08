@@ -161,26 +161,24 @@ public class MapActivity extends Activity implements
 		double lngdiff = Math.abs(markerLng - currentLocation.getLongitude());
 		//test.show(getFragmentManager(), null);
 		CreatureGenerator gen = new CreatureGenerator(marker.getPosition().latitude,marker.getPosition().longitude);
-    	Stats s = gen.stats;
+    	final Stats s = gen.stats;
 		final Dialog dialog = new Dialog(this);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);  
 		dialog.setContentView(R.layout.dialog_layout);
 		TextView tv = (TextView) dialog.findViewById(R.id.dialogText);
-		tv.setText(marker.getTitle() + "\n" 
-				+ "health: " + s.health
-        		+ "\n" + "strength: " + s.strength
-        		+ "\n" + "armor: " + s.armor
-        		+ "\n" + "dexterity: " + s.dexterity);
+		tv.setText("   " + marker.getTitle() + "\n" 
+				+ "   health: " + s.health
+        		+ "\n" + "   strength: " + s.strength
+        		+ "\n" + "   armor: " + s.armor
+        		+ "\n" + "   dexterity: " + s.dexterity);
 		Button dialogButton = (Button) dialog.findViewById(R.id.ok);
 		dialogButton.setBackgroundColor(Color.rgb(0, 0, 0));
 		dialogButton.setTextColor(Color.WHITE);
 		dialogButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				CreatureGenerator gen = new CreatureGenerator(marker.getPosition().latitude,marker.getPosition().longitude);
-		    	Stats st = gen.stats;
 				DBHandler db = new DBHandler(getApplicationContext());
-   				db.addCreature(new Creature(marker.getTitle(), marker.getPosition(), st.health, st.strength, st.armor, st.dexterity));
+   				db.addCreature(new Creature(marker.getTitle(), marker.getPosition(), s.health, s.strength, s.armor, s.dexterity));
    				marker.remove();
 				dialog.dismiss();
 			}

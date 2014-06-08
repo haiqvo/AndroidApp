@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,8 @@ public class MainActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		
 	}
 	
 	@Override
@@ -52,6 +55,11 @@ public class MainActivity extends Activity{
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		float fitWidth = metrics.densityDpi;//(metrics.widthPixels);
 		Paint paint = new Paint();
+		String fontPath = "fonts/PressStart2P.ttf";
+		TextView title = (TextView) findViewById(R.id.titleView);
+		Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
+		paint.setTypeface(tf);
+		title.setTypeface(tf);
 		int size = 1;
 		do
 		{

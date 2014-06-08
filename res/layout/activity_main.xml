@@ -19,15 +19,37 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="match_parent"
 	        android:layout_centerInParent="true"
+	        android:layout_gravity="center"
+	        android:gravity="center"
 	        android:text="Rogue Pixels"
 	        android:textColor="#FFFFFFFF" />
     </RelativeLayout>
-        
-    <com.example.hexpet.CreatureView
-        android:id="@+id/subView"
+    
+    <FrameLayout
+        android:id="@+id/howTo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black" />
+        android:layout_height="0dp"
+        android:layout_weight="4" >
+
+    	<com.example.hexpet.CreatureView
+        	android:id="@+id/subView"
+        	android:layout_width="match_parent"
+        	android:layout_height="match_parent"
+        	android:background="@color/black" />
+    
+    	<TextView
+        	android:layout_width="wrap_content" 
+        	android:layout_height="wrap_content" 
+        	android:layout_marginBottom="20dip"
+        	android:layout_gravity="center"
+        	android:padding="5dip"    
+        	android:background="#AA000000"
+        	android:textColor="#ffffffff"     
+        	android:text="HOW TO PLAY
+        		\n-Click Search and capture a creature 
+        		\n-Use the Creature tab to manage your creature
+        		\n-Train your creature at the dungeon" />
+    </FrameLayout>
     
     <LinearLayout
            android:id="@+id/linearView"
