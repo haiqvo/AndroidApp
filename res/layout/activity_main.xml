@@ -1,56 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_alignParentBottom="true"
     android:background="@color/black"
+    android:orientation="vertical"
     tools:context=".MainActivity" >
-
+    
     <RelativeLayout
+        android:id="@+id/titleContainer"
+        android:layout_width="match_parent"
+    	android:layout_height="0dp"
+    	android:layout_weight="1" >
+	    <TextView 
+	        android:id="@+id/titleView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_centerInParent="true"
+	        android:text="Rogue Pixels"
+	        android:textColor="#FFFFFFFF" />
+    </RelativeLayout>
+        
+    <com.example.hexpet.CreatureView
         android:id="@+id/subView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black" >
+        android:background="@color/black" />
+    
+    <LinearLayout
+           android:id="@+id/linearView"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal" >
 
-        <LinearLayout
-            android:id="@+id/subSubView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal" >
+           <Button
+               android:id="@+id/button1"
+               android:layout_width="0dp"
+               android:layout_weight = "1"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="3dp"
+               android:layout_marginRight="3dp"
+               android:onClick="goToMap"
+               android:text="Search" />
 
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="0dp"
-                android:layout_weight = "1"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
-                android:onClick="goToMap"
-                android:text="Search" />
+           <Button
+               android:id="@+id/button2"
+               android:layout_width="0dp"
+               android:layout_weight = "1"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="3dp"
+               android:layout_marginRight="3dp"
+               android:onClick="goToCreatures"
+               android:text="Creatures" />
+           
+			<Button
+               android:id="@+id/button3"
+               android:layout_width="0dp"
+               android:layout_weight = "1"
+               android:layout_height="wrap_content"
+              	android:layout_marginLeft="3dp"
+               android:layout_marginRight="3dp"
+               android:text="Button 3" />
+       </LinearLayout>
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="0dp"
-                android:layout_weight = "1"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
-                android:onClick="goToCreatures"
-                android:text="Creatures" />
-            
- 			<Button
-                android:id="@+id/button3"
-                android:layout_width="0dp"
-                android:layout_weight = "1"
-                android:layout_height="wrap_content"
-               	android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
-                android:text="Button 3" />
-        </LinearLayout>
-
-    </RelativeLayout>
-
-</RelativeLayout>
+</LinearLayout>

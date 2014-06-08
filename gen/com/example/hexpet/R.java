@@ -1379,24 +1379,26 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f070028;
         public static final int action_menu_presenter=0x7f070029;
         public static final int action_mode_close_button=0x7f070036;
-        public static final int action_settings=0x7f070060;
+        public static final int action_settings=0x7f070065;
         public static final int activity_chooser_view_content=0x7f070037;
         public static final int always=0x7f07001e;
         public static final int beginning=0x7f070023;
         public static final int book_now=0x7f070010;
-        public static final int button1=0x7f070058;
-        public static final int button2=0x7f070059;
-        public static final int button3=0x7f07005a;
+        public static final int button1=0x7f07005a;
+        public static final int button2=0x7f07005b;
+        public static final int button3=0x7f07005c;
         public static final int buyButton=0x7f07000a;
         public static final int buy_now=0x7f07000f;
         public static final int buy_with_google=0x7f07000e;
+        public static final int cancel=0x7f070060;
         public static final int checkbox=0x7f07003f;
         public static final int classic=0x7f070011;
         public static final int collapseActionView=0x7f070020;
         public static final int container=0x7f07004e;
-        public static final int creatureView1=0x7f07005e;
+        public static final int creatureView1=0x7f070063;
         public static final int default_activity_button=0x7f07003a;
         public static final int dialog=0x7f070021;
+        public static final int dialogText=0x7f07005f;
         public static final int disableHome=0x7f07001b;
         public static final int dropdown=0x7f070022;
         public static final int edit_query=0x7f070042;
@@ -1413,20 +1415,22 @@ containing a value of this type.
         public static final int ifRoom=0x7f07001d;
         public static final int image=0x7f070039;
         public static final int imageView1=0x7f070050;
-        public static final int imgLogo=0x7f07005c;
-        public static final int linearLayout1=0x7f07005d;
+        public static final int imgLogo=0x7f07005e;
+        public static final int linearLayout1=0x7f070062;
+        public static final int linearView=0x7f070059;
         public static final int listMode=0x7f070014;
-        public static final int listText=0x7f07005f;
+        public static final int listText=0x7f070064;
         public static final int listView1=0x7f07004f;
         public static final int list_item=0x7f07003b;
         public static final int mainView=0x7f070055;
-        public static final int map=0x7f07005b;
+        public static final int map=0x7f07005d;
         public static final int match_parent=0x7f07000c;
         public static final int middle=0x7f070024;
         public static final int monochrome=0x7f070013;
         public static final int never=0x7f07001c;
         public static final int none=0x7f070000;
         public static final int normal=0x7f070001;
+        public static final int ok=0x7f070061;
         public static final int production=0x7f070007;
         public static final int progress_circular=0x7f07002a;
         public static final int progress_horizontal=0x7f07002b;
@@ -1450,8 +1454,7 @@ containing a value of this type.
         public static final int showTitle=0x7f070019;
         public static final int split_action_bar=0x7f070030;
         public static final int strict_sandbox=0x7f070009;
-        public static final int subSubView=0x7f070057;
-        public static final int subView=0x7f070056;
+        public static final int subView=0x7f070058;
         public static final int submit_area=0x7f07004b;
         public static final int tabMode=0x7f070015;
         public static final int terrain=0x7f070003;
@@ -1460,6 +1463,8 @@ containing a value of this type.
         public static final int textView3=0x7f070053;
         public static final int textView4=0x7f070054;
         public static final int title=0x7f07003d;
+        public static final int titleContainer=0x7f070056;
+        public static final int titleView=0x7f070057;
         public static final int top_action_bar=0x7f070032;
         public static final int up=0x7f070033;
         public static final int useLogo=0x7f070016;
@@ -1521,11 +1526,12 @@ containing a value of this type.
         public static final int activity_main=0x7f030019;
         public static final int activity_map=0x7f03001a;
         public static final int activity_splash_screen=0x7f03001b;
-        public static final int fragment_list=0x7f03001c;
-        public static final int fragment_main=0x7f03001d;
-        public static final int fragment_map=0x7f03001e;
-        public static final int listelement=0x7f03001f;
-        public static final int support_simple_spinner_dropdown_item=0x7f030020;
+        public static final int dialog_layout=0x7f03001c;
+        public static final int fragment_list=0x7f03001d;
+        public static final int fragment_main=0x7f03001e;
+        public static final int fragment_map=0x7f03001f;
+        public static final int listelement=0x7f030020;
+        public static final int support_simple_spinner_dropdown_item=0x7f030021;
     }
     public static final class menu {
         public static final int list=0x7f0c0000;
@@ -1702,11 +1708,11 @@ containing a value of this type.
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f090087;
+        public static final int AppBaseTheme=0x7f090088;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f090088;
+        public static final int AppTheme=0x7f090089;
         /**  Mimic text appearance in select_dialog_item.xml 
          */
         public static final int TextAppearance_AppCompat_Base_CompactMenu_Dialog=0x7f090067;
@@ -1903,6 +1909,7 @@ containing a value of this type.
         public static final int Widget_AppCompat_ProgressBar=0x7f09000e;
         public static final int Widget_AppCompat_ProgressBar_Horizontal=0x7f09000d;
         public static final int Widget_AppCompat_Spinner_DropDown_ActionBar=0x7f090026;
+        public static final int mydialogstyle=0x7f090087;
     }
     public static final class styleable {
         /**  ============================================ 

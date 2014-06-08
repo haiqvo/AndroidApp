@@ -27,6 +27,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -36,7 +37,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Build;
 
@@ -148,42 +154,11 @@ public class MapActivity extends ActionBarActivity implements
 		
 	}
 	
-	@SuppressLint("ValidFragment")
-	public class MarkerClickDialogFragment extends DialogFragment {
-		Marker marker;
-		public MarkerClickDialogFragment(Marker marker){
-			this.marker = marker;
-		}
-	    @Override
-	    public Dialog onCreateDialog(Bundle savedInstanceState) {
-	        // Use the Builder class for convenient dialog construction
-	    	CreatureGenerator gen = new CreatureGenerator(this.marker.getPosition().latitude,this.marker.getPosition().longitude);
-	    	Stats s = gen.stats;
-	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-	        builder.setMessage("Capture: " + marker.getTitle() +"\n" + "health: " + s.health
-	        		+ "\n" + "strength: " + s.strength
-	        		+ "\n" + "armor: " + s.armor
-	        		+ "\n" + "dexterity: " + s.dexterity)
-	               .setPositiveButton("yes", new DialogInterface.OnClickListener() {
-	                   public void onClick(DialogInterface dialog, int id) {
-	                	   	DBHandler db = new DBHandler(getApplicationContext());
-	           				db.addCreature(new Creature(marker.getTitle(), marker.getPosition()));
-	           				marker.remove();
-	                   }
-	               })
-	               .setNegativeButton("no", new DialogInterface.OnClickListener() {
-	                   public void onClick(DialogInterface dialog, int id) {
-	                   }
-	               });
-	        // Create the AlertDialog object and return it
-	        return builder.create();
-	    }
-	}
 
 	
 	//needed for the marker clicks
 	@Override
-	public boolean onMarkerClick(Marker marker) {
+	public boolean onMarkerClick(final Marker marker) {
 		double markerLat = marker.getPosition().latitude;
 		double markerLng = marker.getPosition().longitude;
 		Toast.makeText(this, markerLat + " " + markerLng, Toast.LENGTH_SHORT).show();
@@ -191,8 +166,41 @@ public class MapActivity extends ActionBarActivity implements
 		Location currentLocation = mLocationClient.getLastLocation();
 		double latdiff = Math.abs(markerLat - currentLocation.getLatitude());
 		double lngdiff = Math.abs(markerLng - currentLocation.getLongitude());
-		MarkerClickDialogFragment test = new MarkerClickDialogFragment(marker);
-		test.show(getFragmentManager(), null);
+		//test.show(getFragmentManager(), null);
+		CreatureGenerator gen = new CreatureGenerator(marker.getPosition().latitude,marker.getPosition().longitude);
+    	Stats s = gen.stats;
+		final Dialog dialog = new Dialog(this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);  
+		dialog.setContentView(R.layout.dialog_layout);
+		TextView tv = (TextView) dialog.findViewById(R.id.dialogText);
+		tv.setText(marker.getTitle() + "\n" 
+				+ "health: " + s.health
+        		+ "\n" + "strength: " + s.strength
+        		+ "\n" + "armor: " + s.armor
+        		+ "\n" + "dexterity: " + s.dexterity);
+		Button dialogButton = (Button) dialog.findViewById(R.id.ok);
+		dialogButton.setBackgroundColor(Color.rgb(0, 0, 0));
+		dialogButton.setTextColor(Color.WHITE);
+		dialogButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				DBHandler db = new DBHandler(getApplicationContext());
+   				db.addCreature(new Creature(marker.getTitle(), marker.getPosition()));
+   				marker.remove();
+				dialog.dismiss();
+			}
+		});
+		Button cancelButton = (Button) dialog.findViewById(R.id.cancel);
+		cancelButton.setBackgroundColor(Color.rgb(0, 0, 0));
+		cancelButton.setTextColor(Color.WHITE);
+		cancelButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		dialog.show();
+		// if button is clicked, close the custom dialog
 		//if(latdiff < NOISE && lngdiff < NOISE){
 			//DBHandler db = new DBHandler(this);
 			//db.addCreature(new Creature(marker.getTitle(), marker.getPosition()));
@@ -200,7 +208,6 @@ public class MapActivity extends ActionBarActivity implements
 		//}
 		return false;
 	}
-	
 	@Override
 	public void onConnected(Bundle connectionHint) {
 		Location currentLocation = mLocationClient.getLastLocation();
