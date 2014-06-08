@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DBHandler extends SQLiteOpenHelper{
 	private static final int DATABASE_VERSION = 1;
@@ -20,6 +21,11 @@ public class DBHandler extends SQLiteOpenHelper{
     private static final String KEY_NAME = "name";
     private static final String KEY_LAT = "latitude";
     private static final String KEY_LNG = "longitude";
+    private static final String KEY_SEC = "isSelected";
+    private static final String KEY_HEA = "health";
+    private static final String KEY_STR = "strength";
+    private static final String KEY_ARM = "armor";
+    private static final String KEY_DEX = "dexterity";
     
 	public DBHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -29,7 +35,8 @@ public class DBHandler extends SQLiteOpenHelper{
 	public void onCreate(SQLiteDatabase db) {
 		String CREATE_CREATURE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
 				+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_LAT + " DOUBLE," + KEY_LNG + 
-				" DOUBLE" + ")";
+				" DOUBLE," + KEY_SEC + " BOOLEAN," + KEY_HEA + " INTEGER," + KEY_STR + " INTEGER," + 
+				KEY_ARM + " INTEGER," + KEY_DEX + " INTEGER" + ")";
 		db.execSQL(CREATE_CREATURE_TABLE);
 		
 	}
@@ -45,8 +52,21 @@ public class DBHandler extends SQLiteOpenHelper{
 	 
 	    ContentValues values = new ContentValues();
 	    values.put(KEY_NAME, creature.getName()); // Name
+	    Log.d("table", creature.getName());
 	    values.put(KEY_LAT, creature.getLat());
+	    Log.d("table", Double.toString(creature.getLat()));
 	    values.put(KEY_LNG, creature.getLng());
+	    Log.d("table", Double.toString(creature.getLng()));
+	    values.put(KEY_SEC, creature.getSelect());
+	    //Log.d("table", creature.getName());
+	    values.put(KEY_HEA, creature.getHealth());
+	    Log.d("table", Integer.toString(creature.getHealth()));
+	    values.put(KEY_STR, creature.getStrength());
+	    Log.d("table", Integer.toString(creature.getStrength()));
+	    values.put(KEY_ARM, creature.getArmor());
+	    Log.d("table", Integer.toString(creature.getArmor()));
+	    values.put(KEY_DEX, creature.getDexterity());
+	    Log.d("table", Integer.toString(creature.getDexterity()));
 	 
 	    // Inserting Row
 	    db.insert(TABLE_NAME, null, values);
@@ -62,9 +82,17 @@ public class DBHandler extends SQLiteOpenHelper{
 	            new String[] { String.valueOf(id) }, null, null, null, null);
 	    if (cursor != null)
 	        cursor.moveToFirst();
-	 
-	    Creature creature = new Creature(Integer.parseInt(cursor.getString(0)),
-	            cursor.getString(1), cursor.getDouble(2), cursor.getDouble(3));
+	    
+	    boolean value = cursor.getInt(4)>0;
+        Creature creature = new Creature();
+        creature.setID(Integer.parseInt(cursor.getString(0)));
+        creature.setName(cursor.getString(1));
+        creature.setLocation(cursor.getDouble(2),cursor.getDouble(3));
+        creature.setSelect(value);
+        creature.setHealth(cursor.getInt(5));
+        creature.setStrength(cursor.getInt(6));
+        creature.setArmor(cursor.getInt(7));
+        creature.setDexterity(cursor.getInt(8));
 	    // return contact
 	    return creature;
 	}
@@ -80,10 +108,16 @@ public class DBHandler extends SQLiteOpenHelper{
 	    // looping through all rows and adding to list
 	    if (cursor.moveToFirst()) {
 	        do {
+	        	boolean value = cursor.getInt(4)>0;
 	            Creature creature = new Creature();
 	            creature.setID(Integer.parseInt(cursor.getString(0)));
 	            creature.setName(cursor.getString(1));
 	            creature.setLocation(cursor.getDouble(2),cursor.getDouble(3));
+	            creature.setSelect(value);
+	            creature.setHealth(cursor.getInt(5));
+	            creature.setStrength(cursor.getInt(6));
+	            creature.setArmor(cursor.getInt(7));
+	            creature.setDexterity(cursor.getInt(8));
 	            creatureList.add(creature);
 	        } while (cursor.moveToNext());
 	    }

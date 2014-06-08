@@ -21,6 +21,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -46,7 +47,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Build;
 
-public class MapActivity extends ActionBarActivity implements
+public class MapActivity extends Activity implements
 	GooglePlayServicesClient.ConnectionCallbacks, OnMarkerClickListener, OnConnectionFailedListener{
 
 	private LocationClient mLocationClient;
@@ -83,14 +84,6 @@ public class MapActivity extends ActionBarActivity implements
 	public void onResume(){
 		super.onResume();
 		//Location currentLocation = mLocationClient.getLastLocation();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.map, menu);
-		return true;
 	}
 
 	@Override
@@ -184,8 +177,10 @@ public class MapActivity extends ActionBarActivity implements
 		dialogButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				CreatureGenerator gen = new CreatureGenerator(marker.getPosition().latitude,marker.getPosition().longitude);
+		    	Stats st = gen.stats;
 				DBHandler db = new DBHandler(getApplicationContext());
-   				db.addCreature(new Creature(marker.getTitle(), marker.getPosition()));
+   				db.addCreature(new Creature(marker.getTitle(), marker.getPosition(), st.health, st.strength, st.armor, st.dexterity));
    				marker.remove();
 				dialog.dismiss();
 			}

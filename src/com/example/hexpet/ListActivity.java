@@ -2,6 +2,7 @@ package com.example.hexpet;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,14 +16,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
-public class ListActivity extends ActionBarActivity implements OnItemClickListener{
+public class ListActivity extends Activity implements OnItemClickListener{
 
 	private List<Creature> creatures;
 	
@@ -39,6 +43,7 @@ public class ListActivity extends ActionBarActivity implements OnItemClickListen
 		
 		View v = findViewById(R.id.container);
 		v.setBackgroundColor(Color.rgb(64, 64, 64));
+		
 	}
 	
 	private class MyAdapter extends ArrayAdapter<Creature>{	
@@ -95,19 +100,22 @@ public class ListActivity extends ActionBarActivity implements OnItemClickListen
 			TextView tv = (TextView) newView.findViewById(R.id.listText);
 			tv.setText(w.name);
 			tv.setTextColor(Color.WHITE);
+			/*
+			RadioButton equipCreature = (RadioButton) findViewById(R.id.radioButton1);
+			equipCreature.setChecked(w.isSelected);
+			equipCreature.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					
+				}
+			});
+			*/
+			
 			
 			//tv.setTag(w);
 
 			return newView;
 		}		
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.list, menu);
-		return true;
 	}
 
 	@Override
@@ -134,6 +142,10 @@ public class ListActivity extends ActionBarActivity implements OnItemClickListen
         Creature c = creatures.get(position);
         intent.putExtra("lat", c.getLat());
         intent.putExtra("lon", c.getLng());
+        intent.putExtra("health", c.getHealth());
+        intent.putExtra("strength", c.getStrength());
+        intent.putExtra("armor", c.getArmor());
+        intent.putExtra("dexterity", c.getDexterity());
         startActivity(intent);
 		
 	}

@@ -13,6 +13,10 @@ public class ListItemDetail extends Activity {
 
 	Double lat;
 	Double lng;
+	int health;
+	int strength;
+	int armor;
+	int dexterity;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +24,10 @@ public class ListItemDetail extends Activity {
 		setContentView(R.layout.activity_list_item_detail);
 		this.lat = getIntent().getDoubleExtra("lat", 0.0);
 		this.lng = getIntent().getDoubleExtra("lon", 0.0);
+		this.health = getIntent().getIntExtra("health", 0);
+		this.strength = getIntent().getIntExtra("strength", 0);
+		this.armor = getIntent().getIntExtra("armor", 0);
+		this.dexterity = getIntent().getIntExtra("dexterity", 0);
 		//Toast.makeText(this, lat + " " + lng, Toast.LENGTH_SHORT).show();
 	}
 	
@@ -45,19 +53,18 @@ public class ListItemDetail extends Activity {
 		iv.setBackground(ad1);
 		ad1.start();
 		
-		Stats s = gen.stats;
 		int c = Color.rgb(128, 128, 128);
 		TextView tv = (TextView) findViewById(R.id.textView1);
-		tv.setText("health: " + s.health);
+		tv.setText("health: " + this.health);
 		tv.setTextColor(c);
 		tv = (TextView) findViewById(R.id.textView2);
-		tv.setText("strength: " + s.strength);
+		tv.setText("strength: " + this.strength);
 		tv.setTextColor(c);
 		tv = (TextView) findViewById(R.id.textView3);
-		tv.setText("armor: " + s.armor);
+		tv.setText("armor: " + this.armor);
 		tv.setTextColor(c);
 		tv = (TextView) findViewById(R.id.textView4);
-		tv.setText("dexterity: " + s.dexterity);
+		tv.setText("dexterity: " + this.dexterity);
 		tv.setTextColor(c);
 	}
 }
