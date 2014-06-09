@@ -3,6 +3,23 @@ package com.example.hexpet;
 import java.util.Calendar;
 import java.util.Random;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.location.Location;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
@@ -17,36 +34,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.os.Build;
-
 public class MapActivity extends Activity implements
 	GooglePlayServicesClient.ConnectionCallbacks, OnMarkerClickListener, OnConnectionFailedListener{
 
@@ -60,7 +47,7 @@ public class MapActivity extends Activity implements
         map.setMyLocationEnabled(true);
         mLocationClient = new LocationClient(this, this, this);
         map.getUiSettings().setZoomControlsEnabled(false);
-        //map.getUiSettings().setZoomGesturesEnabled(false);
+        map.getUiSettings().setZoomGesturesEnabled(false);
         map.getUiSettings().setRotateGesturesEnabled(false);
         map.setOnMarkerClickListener(this);
 

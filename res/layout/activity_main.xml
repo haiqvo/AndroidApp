@@ -84,7 +84,8 @@
                android:layout_height="wrap_content"
               	android:layout_marginLeft="3dp"
                android:layout_marginRight="3dp"
-               android:text="Button 3" />
+               android:onClick="goToGame"
+               android:text="Gaem" />
        </LinearLayout>
 
 </LinearLayout>
