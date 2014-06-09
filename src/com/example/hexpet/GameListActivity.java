@@ -10,17 +10,16 @@ import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class GameListActivity extends Activity implements OnItemClickListener {
 
@@ -32,10 +31,13 @@ public class GameListActivity extends Activity implements OnItemClickListener {
 		setContentView(R.layout.activity_game_list);
 		DBHandler db = new DBHandler(this);
 		this.creatures = db.getAllCreature();
-		MyAdapter aa = new MyAdapter(this, R.layout.listelement, creatures);
+		MyAdapter aa = new MyAdapter(this, R.layout.gamelistelement, creatures);
 		ListView myListView = (ListView) findViewById(R.id.listView1);
 		myListView.setAdapter(aa);
 		myListView.setOnItemClickListener(this);
+		
+		View v = findViewById(R.id.container);
+		v.setBackgroundColor(Color.rgb(64, 64, 64));
 	}
 	
 	private class MyAdapter extends ArrayAdapter<Creature>{	
@@ -68,7 +70,7 @@ public class GameListActivity extends Activity implements OnItemClickListener {
 			}
 			
 			// Fills in the view.
-			LinearLayout ll = (LinearLayout) newView.findViewById(R.id.linearLayout1);
+			LinearLayout ll = (LinearLayout) newView.findViewById(R.id.linearLayout2);
 			int c = Color.BLACK;
 			if(position%2 == 0)
 				c = Color.rgb(0,0,64);
@@ -92,6 +94,13 @@ public class GameListActivity extends Activity implements OnItemClickListener {
 			TextView tv = (TextView) newView.findViewById(R.id.listText);
 			tv.setText(w.name);
 			tv.setTextColor(Color.WHITE);
+			
+			tv = (TextView) newView.findViewById(R.id.textView1);
+			tv.setText("Level : " + w.level);
+			tv.setTextColor(Color.WHITE);
+			tv = (TextView) newView.findViewById(R.id.textView2);
+			tv.setText(" Health : " + w.health);
+			tv.setTextColor(Color.WHITE);
 
 			return newView;
 		}		
@@ -106,6 +115,7 @@ public class GameListActivity extends Activity implements OnItemClickListener {
 
 	        
 	    Creature c = creatures.get(position);
+	    Log.e("GameListActivity",""+c.getID());
 	    intent.putExtra("ID", c.getID());
 	    intent.putExtra("lat", c.getLat());
 	    intent.putExtra("lon", c.getLng());

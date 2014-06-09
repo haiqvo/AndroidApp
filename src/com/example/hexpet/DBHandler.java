@@ -79,7 +79,7 @@ public class DBHandler extends SQLiteOpenHelper{
 	    SQLiteDatabase db = this.getReadableDatabase();
 	 
 	    Cursor cursor = db.query(TABLE_NAME, new String[] { KEY_ID,
-	            KEY_NAME}, KEY_ID + "=?",
+	            KEY_NAME, KEY_LAT, KEY_LNG, KEY_SEC, KEY_HEA, KEY_STR, KEY_ARM, KEY_DEX, KEY_LEV}, KEY_ID + "=?",
 	            new String[] { String.valueOf(id) }, null, null, null, null);
 	    if (cursor != null)
 	        cursor.moveToFirst();

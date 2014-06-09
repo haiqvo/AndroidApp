@@ -85,7 +85,7 @@
               	android:layout_marginLeft="3dp"
                android:layout_marginRight="3dp"
                android:onClick="goToGame"
-               android:text="Gaem" />
+               android:text="Dungeon" />
        </LinearLayout>
 
 </LinearLayout>

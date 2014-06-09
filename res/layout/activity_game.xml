@@ -6,15 +6,47 @@
     tools:context="com.example.hexpet.GameActivity"
     tools:ignore="MergeRootFrame" >
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:orientation="vertical" >
+        
+	    <com.example.hexpet.mapContainer
+	        android:id="@+id/mapContainer"
+	    	android:layout_width="match_parent"
+	    	android:layout_height="match_parent" >
+	    	
+	        <ImageView
+		        android:id="@+id/imageView1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" />
+	    
+		    <ImageView 
+		        android:id="@+id/imageView2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" />
+   		    <ImageView 
+		        android:id="@+id/eView1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" />
+	    </com.example.hexpet.mapContainer>
+	    
+	    <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:orientation="vertical" >
+		    
+	        <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFFFF"
+                android:text="textView1" />
+		</LinearLayout>
+    </LinearLayout>
     
-    <ImageView 
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />"
-
 </FrameLayout>
 

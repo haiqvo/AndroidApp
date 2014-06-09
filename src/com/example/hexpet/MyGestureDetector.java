@@ -73,25 +73,23 @@ public class MyGestureDetector extends SimpleOnGestureListener
     
 
     private void onLeftSwipe() {
-        Toast.makeText(UI_context, "Successfully have the swipe working for left", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(UI_context, "Successfully have the swipe working for left", Toast.LENGTH_SHORT).show();
         ga.move(mDirection.LEFT);
-        //moveLeft();
     }
 
     private void onRightSwipe() {
-        Toast.makeText(UI_context, "Successfully have the swipe working for right", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(UI_context, "Successfully have the swipe working for right", Toast.LENGTH_SHORT).show();
         ga.move(mDirection.RIGHT);
-        //moveRight();
     }
     
     private void onUpSwipe() {
-        Toast.makeText(UI_context, "Successfully have the swipe working for up", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(UI_context, "Successfully have the swipe working for up", Toast.LENGTH_SHORT).show();
         ga.move(mDirection.UP);
         
     }
 
     private void onDownSwipe() {
-        Toast.makeText(UI_context, "Successfully have the swipe working for down", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(UI_context, "Successfully have the swipe working for down", Toast.LENGTH_SHORT).show();
         ga.move(mDirection.DOWN);
         
     }

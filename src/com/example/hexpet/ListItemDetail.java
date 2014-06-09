@@ -72,6 +72,6 @@ public class ListItemDetail extends Activity {
 		tv.setText("Level: " + this.level);
 		tv.setTextColor(c);
 		
-		
+		findViewById(R.id.linearDetailView).setBackgroundColor(Color.rgb(0,0,128));
 	}
 }

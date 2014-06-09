@@ -22,7 +22,7 @@ public class Grid
           isConnected = false;
           isRoom = _room;
           if(_room) {
-              color = Color.rgb(222, 184, 135);
+              color = Color.rgb(0, 0, 0);
           } else {
               color = Color.rgb(255, 0, 0);
           }
