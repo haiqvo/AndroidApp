@@ -17,6 +17,7 @@ public class ListItemDetail extends Activity {
 	int strength;
 	int armor;
 	int dexterity;
+	int level;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class ListItemDetail extends Activity {
 		this.strength = getIntent().getIntExtra("strength", 0);
 		this.armor = getIntent().getIntExtra("armor", 0);
 		this.dexterity = getIntent().getIntExtra("dexterity", 0);
+		this.level = getIntent().getIntExtra("level", 0);
 		//Toast.makeText(this, lat + " " + lng, Toast.LENGTH_SHORT).show();
 	}
 	
@@ -66,5 +68,10 @@ public class ListItemDetail extends Activity {
 		tv = (TextView) findViewById(R.id.textView4);
 		tv.setText("dexterity: " + this.dexterity);
 		tv.setTextColor(c);
+		tv = (TextView) findViewById(R.id.textView5);
+		tv.setText("Level: " + this.level);
+		tv.setTextColor(c);
+		
+		
 	}
 }

@@ -13,5 +13,6 @@
     <color name="black">#000000</color>
 
     <string name="title_activity_list_item_detail">ListItemDetail</string>
+    <string name="title_activity_game_list">GameListActivity</string>
 
 </resources>

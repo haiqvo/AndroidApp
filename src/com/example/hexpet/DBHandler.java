@@ -25,6 +25,7 @@ public class DBHandler extends SQLiteOpenHelper{
     private static final String KEY_STR = "strength";
     private static final String KEY_ARM = "armor";
     private static final String KEY_DEX = "dexterity";
+    private static final String KEY_LEV = "level";
     
 	public DBHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -35,7 +36,7 @@ public class DBHandler extends SQLiteOpenHelper{
 		String CREATE_CREATURE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
 				+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_LAT + " DOUBLE," + KEY_LNG + 
 				" DOUBLE," + KEY_SEC + " BOOLEAN," + KEY_HEA + " INTEGER," + KEY_STR + " INTEGER," + 
-				KEY_ARM + " INTEGER," + KEY_DEX + " INTEGER" + ")";
+				KEY_ARM + " INTEGER," + KEY_DEX + " INTEGER," + KEY_LEV + " INTEGER" + ")";
 		db.execSQL(CREATE_CREATURE_TABLE);
 		
 	}
@@ -66,6 +67,7 @@ public class DBHandler extends SQLiteOpenHelper{
 	    Log.d("table", Integer.toString(creature.getArmor()));
 	    values.put(KEY_DEX, creature.getDexterity());
 	    Log.d("table", Integer.toString(creature.getDexterity()));
+	    values.put(KEY_LEV, creature.getLevel());
 	 
 	    // Inserting Row
 	    db.insert(TABLE_NAME, null, values);
@@ -92,6 +94,7 @@ public class DBHandler extends SQLiteOpenHelper{
         creature.setStrength(cursor.getInt(6));
         creature.setArmor(cursor.getInt(7));
         creature.setDexterity(cursor.getInt(8));
+        creature.setLevel(cursor.getInt(9));
 	    // return contact
 	    return creature;
 	}
@@ -117,12 +120,35 @@ public class DBHandler extends SQLiteOpenHelper{
 	            creature.setStrength(cursor.getInt(6));
 	            creature.setArmor(cursor.getInt(7));
 	            creature.setDexterity(cursor.getInt(8));
+	            creature.setLevel(cursor.getInt(9));
 	            creatureList.add(creature);
 	        } while (cursor.moveToNext());
 	    }
 	 
 	    // return contact list
 	    return creatureList;
+	}
+	
+	public int updateCreature(Creature creature) {
+        SQLiteDatabase db = this.getWritableDatabase();
+ 
+        ContentValues values = new ContentValues();
+	    values.put(KEY_HEA, creature.getHealth());
+	    values.put(KEY_STR, creature.getStrength());
+	    values.put(KEY_ARM, creature.getArmor());
+	    values.put(KEY_DEX, creature.getDexterity());
+	    values.put(KEY_LEV, creature.getLevel());
+ 
+        // updating row
+        return db.update(TABLE_NAME, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(creature.getID()) });
+    }
+	
+	public void deleteCreature(Creature creature) {
+	        SQLiteDatabase db = this.getWritableDatabase();
+	        db.delete(TABLE_NAME, KEY_ID + " = ?",
+	                new String[] { String.valueOf(creature.getID()) });
+	        db.close();
 	}
 
 }

@@ -141,7 +141,6 @@ public class MapActivity extends Activity implements
 	public boolean onMarkerClick(final Marker marker) {
 		double markerLat = marker.getPosition().latitude;
 		double markerLng = marker.getPosition().longitude;
-		Toast.makeText(this, markerLat + " " + markerLng, Toast.LENGTH_SHORT).show();
 		double NOISE = 0.0005;
 		Location currentLocation = mLocationClient.getLastLocation();
 		double latdiff = Math.abs(markerLat - currentLocation.getLatitude());
@@ -165,7 +164,7 @@ public class MapActivity extends Activity implements
 			@Override
 			public void onClick(View v) {
 				DBHandler db = new DBHandler(getApplicationContext());
-   				db.addCreature(new Creature(marker.getTitle(), marker.getPosition(), s.health, s.strength, s.armor, s.dexterity));
+   				db.addCreature(new Creature(marker.getTitle(), marker.getPosition(), s.health, s.strength, s.armor, s.dexterity, 1));
    				marker.remove();
 				dialog.dismiss();
 			}

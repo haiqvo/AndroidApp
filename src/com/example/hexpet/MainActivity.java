@@ -85,7 +85,7 @@ public class MainActivity extends Activity{
 	}
 	
 	public void goToGame(View v) {
-		Intent i = new Intent(MainActivity.this, GameActivity.class);
+		Intent i = new Intent(MainActivity.this, GameListActivity.class);
 		startActivity(i);
 	}
 	

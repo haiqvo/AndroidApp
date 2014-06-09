@@ -11,34 +11,31 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
-public class ListActivity extends Activity implements OnItemClickListener{
+public class GameListActivity extends Activity implements OnItemClickListener {
 
 	private List<Creature> creatures;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_list);
+		setContentView(R.layout.activity_game_list);
 		DBHandler db = new DBHandler(this);
 		this.creatures = db.getAllCreature();
 		MyAdapter aa = new MyAdapter(this, R.layout.listelement, creatures);
 		ListView myListView = (ListView) findViewById(R.id.listView1);
 		myListView.setAdapter(aa);
 		myListView.setOnItemClickListener(this);
-		
-		View v = findViewById(R.id.container);
-		v.setBackgroundColor(Color.rgb(64, 64, 64));
-		
 	}
 	
 	private class MyAdapter extends ArrayAdapter<Creature>{	
@@ -95,56 +92,29 @@ public class ListActivity extends Activity implements OnItemClickListener{
 			TextView tv = (TextView) newView.findViewById(R.id.listText);
 			tv.setText(w.name);
 			tv.setTextColor(Color.WHITE);
-			/*
-			RadioButton equipCreature = (RadioButton) findViewById(R.id.radioButton1);
-			equipCreature.setChecked(w.isSelected);
-			equipCreature.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					
-				}
-			});
-			*/
-			
-			
-			//tv.setTag(w);
 
 			return newView;
 		}		
 	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
+	
 	//this should when clicked on the listview should open a more detail page.
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-				
+			
 		Intent intent = new Intent();
-        intent.setClass(this, ListItemDetail.class);
-        //intent.putExtra("position", position);
-        //intent.putExtra("id", id);
-        
-        Creature c = creatures.get(position);
-        intent.putExtra("lat", c.getLat());
-        intent.putExtra("lon", c.getLng());
-        intent.putExtra("health", c.getHealth());
-        intent.putExtra("strength", c.getStrength());
-        intent.putExtra("armor", c.getArmor());
-        intent.putExtra("dexterity", c.getDexterity());
-        intent.putExtra("level", c.getLevel());
-        startActivity(intent);
-		
+	    intent.setClass(this, GameActivity.class);
+
+	        
+	    Creature c = creatures.get(position);
+	    intent.putExtra("ID", c.getID());
+	    intent.putExtra("lat", c.getLat());
+	    intent.putExtra("lon", c.getLng());
+	    intent.putExtra("health", c.getHealth());
+	    intent.putExtra("strength", c.getStrength());
+	    intent.putExtra("armor", c.getArmor());
+	    intent.putExtra("dexterity", c.getDexterity());
+	    intent.putExtra("level", c.getLevel());
+	    startActivity(intent);
+			
 	}
-
-
 }
