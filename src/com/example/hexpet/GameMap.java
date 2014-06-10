@@ -184,8 +184,7 @@ public class GameMap
         	ArrayList<Integer> em = new ArrayList<Integer>();
     		for(Grid g : this.grid)
     		{
-    			if(g.color == Color.rgb(200, 200, 200))
-    				em.add(g.ind);
+    			if(g.color == Color.rgb(200, 200, 200)) em.add(g.ind);
     		}
     		
     		int count = em.size();

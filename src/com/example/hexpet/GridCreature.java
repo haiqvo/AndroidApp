@@ -6,6 +6,7 @@ public class GridCreature {
 
 	public int level;
 	public int health;
+	public int maxHealth;
 	public int strength;
 	public int armor;
 	public int dex;
@@ -23,6 +24,7 @@ public class GridCreature {
 		xCoor = _index % _size;
 		yCoor = _index / _size;
 		health = cr.stats.health;
+		maxHealth = cr.stats.health;
 		strength = cr.stats.strength;
 		armor = cr.stats.armor;
 		dex = cr.stats.dexterity;
@@ -35,6 +37,7 @@ public class GridCreature {
 		xCoor = _index % _size;
 		yCoor = _index / _size;
 		health = c.health;
+		maxHealth = c.health;
 		strength = c.strength;
 		armor = c.armor;
 		dex = c.dexterity;
@@ -72,8 +75,11 @@ public class GridCreature {
 	public boolean takeDamage(int damage) 
 	{
 		health -= damage;
-		if(health <= 0) 
+		if(health <= 0) {
 			dead = true;
+		} else {
+			dead = false;
+		}
 		return dead;
 	}
 }

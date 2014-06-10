@@ -47,8 +47,10 @@
         	android:textColor="#ffffffff"     
         	android:text="HOW TO PLAY
         		\n-Click Search and capture a creature 
+        		\n-To capture you have to be near the creature
         		\n-Use the Creature tab to manage your creature
-        		\n-Train your creature at the dungeon" />
+        		\n-Train your creature at the dungeon
+        		\n-Swipe the direction you want to go in the dungeon"  />
     </FrameLayout>
     
     <LinearLayout

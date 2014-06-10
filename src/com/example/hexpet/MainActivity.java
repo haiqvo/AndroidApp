@@ -2,6 +2,8 @@ package com.example.hexpet;
 
 import java.util.Random;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -27,6 +29,8 @@ public class MainActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		
 		
 		
 	}

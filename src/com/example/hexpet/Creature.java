@@ -37,8 +37,10 @@ public class Creature implements Parcelable{
 		this.level = level;
 	}
 	
-	public Creature(int id, int health, int strength, int armor, int dexterity, int level){
+	public Creature(int id, String name, LatLng location, int health, int strength, int armor, int dexterity, int level){
 		this.id = id;
+		this.name = name;
+		this.location = location;
 		this.health = health;
 		this.strength = strength;
 		this.armor = armor;

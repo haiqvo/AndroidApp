@@ -15,7 +15,9 @@ public class Player extends GridCreature
 		xCoor = _index % _size;
 		yCoor = _index / _size;
 		health = c.health;
+		maxHealth = c.health;
 		strength = c.strength;
+		level = c.level;
 		armor = c.armor;
 		dex = c.dexterity;
 		dead = false;

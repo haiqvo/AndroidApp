@@ -50,7 +50,7 @@ public class MapActivity extends Activity implements
         map.getUiSettings().setZoomGesturesEnabled(false);
         map.getUiSettings().setRotateGesturesEnabled(false);
         map.setOnMarkerClickListener(this);
-
+        
 	}
 	
 	@Override
@@ -141,11 +141,12 @@ public class MapActivity extends Activity implements
 	public boolean onMarkerClick(final Marker marker) {
 		double markerLat = marker.getPosition().latitude;
 		double markerLng = marker.getPosition().longitude;
-		double NOISE = 0.0005;
+		double NOISE = 0.01;
 		Location currentLocation = mLocationClient.getLastLocation();
 		double latdiff = Math.abs(markerLat - currentLocation.getLatitude());
 		double lngdiff = Math.abs(markerLng - currentLocation.getLongitude());
 		//test.show(getFragmentManager(), null);
+		if(latdiff<NOISE && lngdiff<NOISE){
 		CreatureGenerator gen = new CreatureGenerator(marker.getPosition().latitude,marker.getPosition().longitude);
     	final Stats s = gen.stats;
 		final Dialog dialog = new Dialog(this);
@@ -179,6 +180,7 @@ public class MapActivity extends Activity implements
 			}
 		});
 		dialog.show();
+		}
 		// if button is clicked, close the custom dialog
 		//if(latdiff < NOISE && lngdiff < NOISE){
 			//DBHandler db = new DBHandler(this);

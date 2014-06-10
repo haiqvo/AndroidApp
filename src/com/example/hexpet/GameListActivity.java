@@ -40,6 +40,20 @@ public class GameListActivity extends Activity implements OnItemClickListener {
 		v.setBackgroundColor(Color.rgb(64, 64, 64));
 	}
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		DBHandler db = new DBHandler(this);
+		this.creatures = db.getAllCreature();
+		MyAdapter aa = new MyAdapter(this, R.layout.gamelistelement, creatures);
+		ListView myListView = (ListView) findViewById(R.id.listView1);
+		myListView.setAdapter(aa);
+		myListView.setOnItemClickListener(this);
+		
+		View v = findViewById(R.id.container);
+		v.setBackgroundColor(Color.rgb(64, 64, 64));
+	}
+	
 	private class MyAdapter extends ArrayAdapter<Creature>{	
 
 		int resource;

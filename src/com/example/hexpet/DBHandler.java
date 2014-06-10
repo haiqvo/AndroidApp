@@ -150,5 +150,6 @@ public class DBHandler extends SQLiteOpenHelper{
 	                new String[] { String.valueOf(creature.getID()) });
 	        db.close();
 	}
+	
 
 }
